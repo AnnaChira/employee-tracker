@@ -15,7 +15,7 @@ CREATE TABLE employee (
 CREATE TABLE roles (
   position INT NOT NULL,
   title VARCHAR(30) NULL,
-  salary decimal,
+  salary DECIMAL,
   department_id INT NULL,  
   PRIMARY KEY (position)
 );

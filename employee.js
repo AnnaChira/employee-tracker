@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
 
   user: "root",
   password: "",
-  database: "employee_trakcer"
+  database: "employee_tracker"
 });
 
 connection.connect(function(err) {
@@ -22,51 +22,48 @@ function runSearch() {
       type: "rawlist",
       message: "What would you like to do?",
       choices: [
-        "Find songs by artist",
-        "Find all artists who appear more than once",
-        "Find data within a specific range",
-        "Search for a specific song",
-        "Find artists with a top song and top album in the same year"
+        "Find all the employees",
+        "Find all the employee by depatrment",
+        "Find all the employees by manager",
+        "Add Employee",
+        "Remove Employee",
+        "Update Employee's Role",
+        "Update Employee's Manager",
+        "View all Employees",
       ]
     })
     .then(function(answer) {
       switch (answer.action) {
-      case "Find songs by artist":
-        artistSearch();
+      case "Find all the employees":
+        employeeSearch();
         break;
 
-      case "Find all artists who appear more than once":
-        multiSearch();
+      case "View all Employees":
+        viewallSearch();
         break;
 
-      case "Find data within a specific range":
-        rangeSearch();
+      case  "Find all the employee by department":
+        departmentSearch();
         break;
 
-      case "Search for a specific song":
-        songSearch();
-        break;
-
-      case "Find artists with a top song and top album in the same year":
-        songAndAlbumSearch();
+      case "Find all the employees by manager":
+        managerSearch();
         break;
       }
     });
 }
 
-function artistSearch() {
+function employeeSearch() {
   inquirer
     .prompt({
-      name: "artist",
+      name: "employee",
       type: "input",
-      message: "What artist would you like to search for?"
+      message: "What employee would you like to search for?"
     })
     .then(function(answer) {
-      var query = "SELECT position, song, year FROM top5000 WHERE ?";
-      connection.query(query, { artist: answer.artist }, function(err, res) {
-        for (var i = 0; i < res.length; i++) {
-          console.log("Position: " + res[i].position + " || Song: " + res[i].song + " || Year: " + res[i].year);
-        }
+      var query = "SELECT position, song, year FROM employee WHERE ?";
+      connection.query(query, { employee: answer.firstname }, function(err, res) {
+        for (var i = 0; i < res.length; i++) 
         runSearch();
       });
     });
