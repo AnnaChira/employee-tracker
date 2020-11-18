@@ -1,12 +1,14 @@
+require('dotenv').config()
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var table = require("console.table");
 
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
 
   user: "root",
-  password: "",
+  password: process.env.DB_PASSWORD,
   database: "employee_tracker"
 });
 
@@ -22,8 +24,8 @@ function runSearch() {
       type: "rawlist",
       message: "What would you like to do?",
       choices: [
-        "Find all the employees",
-        "Find all the employee by depatrment",
+        "Find the employee",
+        "Find all the employee by department",
         "Find all the employees by manager",
         "Add Employee",
         "Remove Employee",
@@ -34,7 +36,7 @@ function runSearch() {
     })
     .then(function(answer) {
       switch (answer.action) {
-      case "Find all the employees":
+      case "Find the employee":
         employeeSearch();
         break;
 
@@ -49,8 +51,57 @@ function runSearch() {
       case "Find all the employees by manager":
         managerSearch();
         break;
+
+      case "Add Employee":
+        addEmployee();
+        break;
+
+      case "Remove Employee":
+        deleteEmployee();
+        break;
+
+      case  "Update Employee's Role":
+        updateEmployeeR();
+        break;
+
+      case "Update Employee's Manager":
+        updateEmployeeM();
+        break;
       }
     });
+}
+
+function viewallSearch() {
+  var query = "SELECT * FROM employees";
+  connection.query(query, function(err, res){
+    console.log(err);
+    console.table(res);
+    runSearch();
+  })
+};
+
+function addEmployee () {
+  .prompt([
+    {
+      name: "first",
+      type: "input",
+      message: "What is the employee's first name?"
+    },
+    {
+      name: "last",
+      type: "input",
+      message: "What is the employee's last name?"
+    },
+    {
+    name: "role",
+    type: "list",
+    message: "What is the employee's role?",
+    choices: ["Manager", "Engineer", "IT Support", "HR Support"]
+    },
+  ])
+  .then(function(answer) {
+    connection.query("Insert Into Employee")
+  })
 }
 
 function employeeSearch() {
@@ -61,7 +112,7 @@ function employeeSearch() {
       message: "What employee would you like to search for?"
     })
     .then(function(answer) {
-      var query = "SELECT position, song, year FROM employee WHERE ?";
+      var query = "SELECT FROM employee WHERE ?";
       connection.query(query, { employee: answer.firstname }, function(err, res) {
         for (var i = 0; i < res.length; i++) 
         runSearch();
