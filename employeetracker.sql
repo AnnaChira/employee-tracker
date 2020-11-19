@@ -1,11 +1,10 @@
-DROP DATABASE IF EXISTS employee_tracker:
+DROP DATABASE IF EXISTS employee_tracker;
 CREATE database employee_tracker;
 
 USE employee_tracker;
 
 CREATE TABLE employees  (
-  id INT AUTO_INCREMENT,
-  position INT NOT NULL,
+  id INT Not NULL AUTO_INCREMENT,
   first_name VARCHAR(30) NULL,
   last_name VARCHAR(30) NULL,
   role_id INT NULL,
@@ -15,7 +14,6 @@ CREATE TABLE employees  (
 
 CREATE TABLE roles (
   id INT AUTO_INCREMENT,
-  position INT NOT NULL,
   title VARCHAR(30) NULL,
   salary DECIMAL,
   department_id INT NULL,  
@@ -24,7 +22,6 @@ CREATE TABLE roles (
 
 CREATE TABLE departments (
   id INT AUTO_INCREMENT,
-  position INT NOT NULL,
   name VARCHAR(30) NULL,
   PRIMARY KEY (id)
 );
