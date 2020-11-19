@@ -28,9 +28,6 @@ function runSearch() {
         "Find all the employee by department",
         "Find all the employees by manager",
         "Add Employee",
-        "Remove Employee",
-        "Update Employee's Role",
-        "Update Employee's Manager",
         "View all Employees",
       ]
     })
@@ -55,18 +52,6 @@ function runSearch() {
         case "Add Employee":
           addEmployee();
           break;
-
-        case "Remove Employee":
-          deleteEmployee();
-          break;
-
-        case "Update Employee's Role":
-          updateEmployeeR();
-          break;
-
-        case "Update Employee's Manager":
-          updateEmployeeM();
-          break;
       }
     });
 }
@@ -81,11 +66,21 @@ function viewallSearch() {
 };
 
 function employeeSearch() {
-  inquirer.prompt([
-    {
-
-    }
-  ])
+  connection.query("SELECT * FROM employee", function(err, results){
+    if (err) throw err;
+    inquirer.prompt([
+      {
+        name: "firstname",
+        type: "input",
+        message: "What is employee's first name?",
+      },
+      {
+        name: "lastname",
+        type: "input",
+        message: "What is the employee's last name",
+      }
+    ])
+  })
 }
 
 function addEmployee() {
